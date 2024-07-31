@@ -74,7 +74,7 @@ A comprehensive Blog Website System with features for user authentication, blog 
 
     ```
     JWT_SECRET_KEY = 
-   JWT_EXPIRES=
+   JWT_EXPIRES =
    MONGODB_URL = 
    PORT=
    COOKIE_EXPIRE=
