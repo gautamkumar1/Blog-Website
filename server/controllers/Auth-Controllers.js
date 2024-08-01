@@ -3,12 +3,12 @@ const sendToken = require('../utils/jwtToken');
 const crypto = require('crypto');
 const sendEmail = require('../utils/mail');
 
-const register = async (req, res) => {
+const register = async (req, res,next) => {
     try {
         const { username, email, password, role } = req.body;
-        if (!username || !email || !password || !role) {
-            return res.status(400).json({ message: "All fields are required" });
-        }
+        // if (!username || !email || !password || !role) {
+        //     return res.status(400).json({ message: "All fields are required" });
+        // }
 
         // Check if the user already exists
         const userExists = await User.findOne({ email });
@@ -33,10 +33,11 @@ const register = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error While Registering User', error: error.message });
+        next(error);
     }
 };
 
-const login = async (req, res) => {
+const login = async (req, res,next) => {
     try {
         const { email, password, role } = req.body;
         if (!email || !password || !role) {
@@ -60,6 +61,8 @@ const login = async (req, res) => {
 
     } catch (error) {
         console.log(error);
+        res.status(500).json({ message: 'Error while Logging In User', error: error.message });
+        next(error);
     }
 };
 
@@ -93,7 +96,8 @@ const verifyEmail = async (req, res) => {
         user.verificationTokenExpire = undefined;
         await user.save();
 
-        res.status(200).json({ message: 'Email verified successfully' });
+        // res.status(200).json({ message: 'Email verified successfully' });
+        res.redirect('http://localhost:5173/verifyPage');
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error verifying email' });
@@ -103,7 +107,7 @@ const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
         const user = await User.findOne({ email });
-
+        console.log("userId: ",user._id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -113,12 +117,12 @@ const forgotPassword = async (req, res) => {
         await user.save();
 
         // Create reset URL
-        const resetUrl = `${req.protocol}://${req.get('host')}/api/user/reset-password/${resetToken}`;
+        const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
         const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
         console.log("Reset Password link : ", message);
         await sendEmail({ email: user.email, subject: 'Password reset token', message });
 
-        res.status(200).json({ message: 'Email sent' });
+        res.status(200).json({ message: 'Email sent',userId: user._id });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error sending email' });

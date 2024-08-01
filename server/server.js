@@ -5,8 +5,16 @@ const connectDb = require('./database/dB');
 const userRoute = require('./routes/UserRoutes')
 const adminRoute = require('./routes/AdminRoutes')
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const errorMiddleware = require('./middlewares/error-middleware');
 const app = express();
 
+const corsOptions = {
+  origin: "http://localhost:5173",
+  method: "GET,POST,PUT, DELETE, PATCH,HEAD",
+  Credential: true,
+};
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +24,8 @@ app.get('/',(req,res)=>{
 
 app.use('/api/user',userRoute)
 app.use('/api/admin',adminRoute)
+
+app.use(errorMiddleware)
 const PORT = process.env.PORT || 3000;
 
 connectDb().then(() => {
