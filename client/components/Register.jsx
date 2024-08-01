@@ -1,60 +1,59 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { toast } from "react-toastify";
 const Register = () => {
-  const [user,setUser] = useState({
-    username:"",
-    email:"",
-    password:"",
-    role:""
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    role: ""
   })
   const navigate = useNavigate();
-  const handelInput = (e) =>{
-    let name = e.target.name
-    let value = e.target.value;
-    setUser({...user, [name]:value})
-  }
+  // const handelInput = (e) =>{
+  //   let name = e.target.name
+  //   let value = e.target.value;
+  //   setUser({...user, [name]:value})
+  // }
+  const handelInput = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value
+    }));
+  };
 
-  const handleSubmit = async (e) =>{
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(user)
+    console.log('Submitting user data:', user); // Log user data to check
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/user/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-          body: JSON.stringify(user),
-        }
-      );
+      const response = await fetch("http://localhost:3000/api/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify(user),
+      });
       const responseData = await response.json();
       console.log("responseData", responseData);
-      if(response.ok){
+      if (response.ok) {
         toast.success("Registration Successfully");
-        
-
-        setUser({ username: "", email: "", password: "",role: "", });
+        setUser({ username: "", email: "", password: "", role: "" });
         // navigate("/login");
-      }
-      else{
-        toast.error(
-          responseData.extraDetails
-            ? responseData.extraDetails
-            : responseData.message
-        )
+      } else {
+        toast.error(responseData.extraDetails ? responseData.extraDetails : responseData.message);
       }
     } catch (error) {
       console.log(error);
     }
   }
+
 
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
@@ -79,17 +78,19 @@ const Register = () => {
             <Input id="password" type="password" name="password" value={user.password} onChange={handelInput} placeholder="Enter your password" required />
           </div>
           <div>
-            <Label htmlFor="role">Role</Label>
             <select
               id="role"
               name="role"
-              value={user.role} onChange={handelInput}
+              value={user.role} // Ensure this is controlled by the state
+              onChange={handelInput}
               className="block w-full mt-1 rounded-md border border-input bg-background px-3 py-2 text-foreground shadow-sm focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
               required
             >
+              <option value="">Select a role</option> {/* Add an empty option as default */}
               <option value="Writer">Writer</option>
               <option value="Admin">Admin</option>
             </select>
+
           </div>
           <Button type="submit" className="w-full">
             Register

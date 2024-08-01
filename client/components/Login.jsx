@@ -1,91 +1,55 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import {useNavigate} from "react-router-dom"
+import  { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { Checkbox } from "../components/ui/checkbox";
 import { Button } from "../components/ui/button";
 import { toast } from "react-toastify";
+// import Cookies from 'js-cookie';
+
 const Login = () => {
-  const [user,setUser] = useState({
-    email:"",
-    password:"",
-    role:""
-  })
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+    role: ""
+  });
   const navigate = useNavigate();
-  const handelInput = (e) =>{
-    let name = e.target.name
+  const handleInput = (e) => {
+    let name = e.target.name;
     let value = e.target.value;
-    setUser({...user, [name]:value})
-  }
-  // const handleSubmit = async (e) =>{
-  //   e.preventDefault();
-  //   // console.log(user)
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:3000/api/user/login",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "Access-Control-Allow-Origin": "*",
-  //         },
-  //         body: JSON.stringify(user),
-  //       }
-  //     );
-  //     const responseData = await response.json();
-  //     console.log("responseData", responseData);
-  //     if(response.ok){
-  //       toast.success("Login Successfully");
-        
+    setUser({ ...user, [name]: value });
+  };
 
-  //       setUser({email: "", password: "",role: "", });
-  //       navigate("/");
-  //     }
-  //     else{
-  //       toast.error("Login Failed");
-  //     }
-  //   } catch (err) {
-  //     toast.error(
-  //       responseData.extraDetails
-  //           ? responseData.extraDetails
-  //           : responseData.message
-  //     )
-  //   }
-  // }
-  
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  // console.log(user)
-  try {
-    const response = await fetch(
-      "http://localhost:3000/api/user/login",
-      {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:3000/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify(user),
-      }
-    );
-    const responseData = await response.json();
-    console.log("responseData", responseData);
-    if (response.ok) {
-      toast.success("Login Successfully");
+        // credentials: 'include' // Ensure cookies are sent
+      });
 
-      setUser({ email: "", password: "", role: "" });
-      navigate("/");
-    } else {
-      toast.error(responseData.message ? responseData.message : "Login Failed");
+      const responseData = await response.json();
+      console.log("responseData", responseData.token);
+      if (response.ok) {
+  console.log(response,"hhjh")
+        // Cookies.set('token',responseData.token)
+        toast.success("Login Successfully");
+        setUser({ email: "", password: "", role: "" });
+        navigate("/");
+      } else {
+        toast.error(responseData.message ? responseData.message : "Login Failed");
+      }
+    } catch (err) {
+      toast.error("An unexpected error occurred");
+      console.error("Login error:", err);
     }
-  } catch (err) {
-    toast.error("An unexpected error occurred");
-    console.error("Login error:", err);
-  }
-};
+  };
 
   return (
     <div className="flex min-h-[100dvh] items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
@@ -105,7 +69,7 @@ const handleSubmit = async (e) => {
               name="email"
               type="email"
               value={user.email}
-              onChange={handelInput}
+              onChange={handleInput}
               autoComplete="email"
               required
               className="relative block w-full appearance-none rounded-md border border-input bg-background px-3 py-2 text-foreground placeholder-muted-foreground focus:z-10 focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
@@ -120,7 +84,7 @@ const handleSubmit = async (e) => {
               id="password"
               name="password"
               value={user.password}
-              onChange={handelInput}
+              onChange={handleInput}
               type="password"
               autoComplete="current-password"
               required
@@ -147,10 +111,11 @@ const handleSubmit = async (e) => {
               id="role"
               name="role"
               value={user.role}
-              onChange={handelInput}
+              onChange={handleInput}
               className="block w-full mt-1 rounded-md border border-input bg-background px-3 py-2 text-foreground shadow-sm focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
               required
             >
+              <option value="">Select a role</option>
               <option value="Writer">Writer</option>
               <option value="Admin">Admin</option>
             </select>
