@@ -13,7 +13,7 @@ const HomePage = () => {
               Discover the latest insights and stories from our community of writers and experts.
             </p>
             <Link
-              to="#"
+              to="/createblog"
               className="inline-flex h-10 items-center justify-center rounded-md bg-primary-foreground px-6 py-2 text-sm font-medium text-primary shadow-sm transition-colors hover: focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               Create a Blog Post

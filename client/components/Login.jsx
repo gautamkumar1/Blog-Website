@@ -37,7 +37,8 @@ const Login = () => {
       });
 
       const responseData = await response.json();
-      // console.log("Token : ", responseData.token);
+
+      console.log("Token : ", responseData);
       Cookies.set("token", responseData.token);
       if (response.ok) {
         toast.success("Login Successfully");

@@ -3,16 +3,33 @@ const jwt = require('jsonwebtoken')
 
 //AUTHENTICATION
 const isAuthenticated = async (req, res, next) => {
-    const { token } = req.cookies;
-    if (!token) {
-        return res.status(401).send("User is not authenticated!")
+    console.log("Cookies:", req.cookies); // Debugging line
+    
+    // First, check the token in the cookies
+    let token = req.cookies.token;
+
+    // If the token is not in the cookies, check the Authorization header
+    if (!token && req.headers["authorization"]) {
+        const authHeader = req.headers["authorization"];
+        if (authHeader.startsWith('Bearer ')) {
+            token = authHeader.split(" ")[1];
+        }
     }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-    req.user = await User.findById(decoded.id);
+    console.log("Authentication token:", token); // Debugging line
 
-    next();
-}
+    if (!token) {
+        return res.status(401).send("User is not authenticated!");
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        req.user = await User.findById(decoded.id);
+        next();
+    } catch (error) {
+        res.status(401).send("Invalid token!");
+    }
+};
 
 
 //AUTHORIZATION

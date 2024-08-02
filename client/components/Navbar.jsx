@@ -35,14 +35,7 @@ console.log(isLoggedIn,"YUGH")
                                     </Link>
                                 </li>
 
-                                <li>
-                                    <Link
-                                        className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                                        to="/about"
-                                    >
-                                        About
-                                    </Link>
-                                </li>
+                               
 
                                 <li>
                                     <Link
@@ -56,27 +49,25 @@ console.log(isLoggedIn,"YUGH")
                                 <li>
                                     <Link
                                         className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                                        to="/services"
+                                        to="/draftblogs"
                                     >
-                                        Services
+                                        Draft Blogs
                                     </Link>
                                 </li>
-
                                 <li>
                                     <Link
                                         className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                                        to="/projects"
+                                        to="/about"
                                     >
-                                        Projects
+                                        About
                                     </Link>
                                 </li>
-
                                 <li>
                                     <Link
                                         className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                                        to="/blog"
+                                        to="/contact"
                                     >
-                                        Blog
+                                        Contact Us
                                     </Link>
                                 </li>
                             </ul>
