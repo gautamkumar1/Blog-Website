@@ -10,7 +10,8 @@ const errorMiddleware = require('./middlewares/error-middleware');
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  // origin: "http://localhost:5173",
+  origin: "*",
   method: "GET,POST,PUT, DELETE, PATCH,HEAD",
   Credential: true,
 };

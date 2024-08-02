@@ -1,4 +1,5 @@
-import  { useState } from 'react';
+/* eslint-disable react/no-unescaped-entities */
+import  { useContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Label } from "../components/ui/label";
@@ -6,7 +7,8 @@ import { Input } from "../components/ui/input";
 import { Checkbox } from "../components/ui/checkbox";
 import { Button } from "../components/ui/button";
 import { toast } from "react-toastify";
-// import Cookies from 'js-cookie';
+import Cookies from "js-cookie"
+import { AuthContext } from '../src/store/auth-context';
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -14,6 +16,7 @@ const Login = () => {
     password: "",
     role: ""
   });
+  const {setLoginStatus}=useContext(AuthContext)
   const navigate = useNavigate();
   const handleInput = (e) => {
     let name = e.target.name;
@@ -28,20 +31,19 @@ const Login = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify(user),
         // credentials: 'include' // Ensure cookies are sent
       });
 
       const responseData = await response.json();
-      console.log("responseData", responseData.token);
+      // console.log("Token : ", responseData.token);
+      Cookies.set("token", responseData.token);
       if (response.ok) {
-  console.log(response,"hhjh")
-        // Cookies.set('token',responseData.token)
         toast.success("Login Successfully");
         setUser({ email: "", password: "", role: "" });
         navigate("/");
+        setLoginStatus(true)
       } else {
         toast.error(responseData.message ? responseData.message : "Login Failed");
       }
