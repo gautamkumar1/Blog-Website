@@ -43,7 +43,7 @@ const Register = () => {
       const responseData = await response.json();
       console.log("responseData", responseData);
       if (response.ok) {
-        toast.success("Registration Successfully");
+        toast.success("Registration successful. Please check your email for verification link.");
         setUser({ username: "", email: "", password: "", role: "" });
         // navigate("/login");
       } else {

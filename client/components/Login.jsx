@@ -43,7 +43,12 @@ const Login = () => {
       if (response.ok) {
         toast.success("Login Successfully");
         setUser({ email: "", password: "", role: "" });
-        navigate("/");
+        if(user.role=== "Writer"){
+          navigate("/");
+        }
+        else if(user.role=== "Admin"){
+          navigate("/dashboard");
+        }
         setLoginStatus(true)
       } else {
         toast.error(responseData.message ? responseData.message : "Login Failed");

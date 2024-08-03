@@ -44,16 +44,16 @@ const DraftPosts = () => {
 
   return (
     <div className="p-6 bg-gray-800 text-white min-h-screen">
-      <h1 className="text-2xl font-bold mb-4 text-center">Draft Blog Posts</h1>
-      <div className="space-y-4">
-        {drafts.map((draft) => (
-          <div key={draft._id} className="p-4 border border-gray-600 rounded-lg bg-gray-900 text-center">
-            <h2 className="text-xl font-semibold text-yellow-300">{draft.title}</h2>
-            <p className="text-sm text-gray-400">Status: {draft.status}</p>
-          </div>
-        ))}
-      </div>
+    <h1 className="text-2xl font-bold mb-4 text-center">Draft Blog Posts</h1>
+    <div className="space-y-4">
+      {drafts.map((draft) => (
+        <div key={draft._id} className="p-4 border border-gray-600 rounded-lg bg-gray-900 text-center">
+          <h2 className="text-xl font-semibold text-yellow-300">{draft.title}</h2>
+          <p className="text-sm text-gray-400">Status: {draft.status}</p>
+        </div>
+      ))}
     </div>
+  </div>
   );
 };
 

@@ -16,6 +16,8 @@ import Cookies from "js-cookie"
 import { useContext, useEffect } from "react"
 import { AuthContext } from "../store/auth-context"
 import ContactForm from "../../components/ContactPage"
+import AdminDashboard from "../../components/AdminDashboard"
+
 
 
 function Router() {
@@ -45,7 +47,7 @@ function Router() {
           <Route path="/reset-password/:id" element={<ResetPassword />} />
           <Route path="/createblog" element={token ? <CreateBlogPost /> : <Navigate to="/login" />} />
           <Route path="/draftblogs" element={token ? <DraftPosts /> : <Navigate to="/login" />} />
-         
+          <Route path="/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
 
         </Routes>
     </>

@@ -49,6 +49,9 @@ const login = async (req, res,next) => {
             return res.status(400).json({ message: "No user found with this email" });
         }
 
+        if (!userExists.isVerified) {
+            return res.status(400).json({ message: 'Email not verified' });
+        }
         const isMatch = await userExists.comparePassword(password);
         if (!isMatch) {
             return res.status(400).json({ message: "Incorrect password" });
