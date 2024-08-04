@@ -2,11 +2,11 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "../components/ui/dropdown-menu";
-import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "../components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../components/ui/table";
 import { Badge } from "../components/ui/badge";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 function BookIcon(props) {
   return (
@@ -85,7 +85,96 @@ function UsersIcon(props) {
   );
 }
 
+
+
+
 const AdminDashboard = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editingStatusId, setEditingStatusId] = useState(null);
+  const [newStatus, setNewStatus] = useState('');
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const authToken = Cookies.get('token');
+        console.log("Token: " + authToken);
+
+        const response = await fetch("http://localhost:3000/api/admin/show-allposts", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${authToken}`, // Include the token here
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const responseData = await response.json();
+        console.log("Response data: ", responseData);
+
+        setPosts(responseData);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  const handleStatusEdit = (postId, currentStatus) => {
+    setEditingStatusId(postId);
+    setNewStatus(currentStatus);
+  };
+
+  const handleStatusChange = (event) => {
+    setNewStatus(event.target.value);
+  };
+
+  const handleStatusSave = async (postId) => {
+    try {
+      const authToken = Cookies.get('token');
+      const response = await fetch(`http://localhost:3000/api/admin/posts/${postId}/status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update status');
+      }
+
+      const updatedPost = await response.json();
+
+      setPosts(posts.map(post => post._id === postId ? { ...post, status: newStatus } : post));
+      setEditingStatusId(null);
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
+
+  const getStatusBadgeClass = (status) => {
+    switch (status) {
+      case 'Approved':
+        return 'bg-green-500 text-white';
+      case 'Rejected':
+        return 'bg-red-500 text-white';
+      default:
+        return '';
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="grid min-h-screen w-full grid-cols-[260px_1fr]">
       <aside className="flex flex-col border-r bg-background">
@@ -128,18 +217,14 @@ const AdminDashboard = () => {
             <Button asChild variant="outline" size="sm">
               <Link to="/" target="_blank" rel="noopener noreferrer">View your site</Link>
             </Button>
-            
           </div>
         </header>
         <Card className="mt-8">
           <CardHeader className="flex justify-between">
             <div>
-              <CardTitle>Recent Posts</CardTitle>
-              <CardDescription>A summary of your published posts.</CardDescription>
+              <CardTitle> Posts</CardTitle>
+              <CardDescription>A summary of your  posts.</CardDescription>
             </div>
-            <Button asChild>
-              <Link href="#" className="text-sm">New Post</Link>
-            </Button>
           </CardHeader>
           <CardContent>
             <Table>
@@ -147,45 +232,42 @@ const AdminDashboard = () => {
                 <TableRow>
                   <TableHead>Title</TableHead>
                   <TableHead>Author</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Comments</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <Link href="#" className="font-medium">Understanding Promises in JavaScript</Link>
-                  </TableCell>
-                  <TableCell>John Doe</TableCell>
-                  <TableCell>July 24, 2024</TableCell>
-                  <TableCell>8</TableCell>
-                  <TableCell>
-                    <Badge>Published</Badge>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Link href="#" className="font-medium">A Guide to React Context API</Link>
-                  </TableCell>
-                  <TableCell>Jane Smith</TableCell>
-                  <TableCell>August 2, 2024</TableCell>
-                  <TableCell>12</TableCell>
-                  <TableCell>
-                    <Badge>Published</Badge>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Link href="#" className="font-medium">CSS Grid vs. Flexbox</Link>
-                  </TableCell>
-                  <TableCell>Bob Johnson</TableCell>
-                  <TableCell>August 1, 2024</TableCell>
-                  <TableCell>5</TableCell>
-                  <TableCell>
-                    <Badge>Published</Badge>
-                  </TableCell>
-                </TableRow>
+                {posts.map((post) => (
+                  <TableRow key={post._id}>
+                    <TableCell>
+                      <Link href="#" className="font-medium">{post.title}</Link>
+                    </TableCell>
+                    <TableCell>{post.author.username}</TableCell>
+                    <TableCell>
+                      {editingStatusId === post._id ? (
+                        <select
+                          value={newStatus}
+                          onChange={handleStatusChange}
+                          className="bg-white text-black border rounded px-2 py-1"
+                        >
+                          <option value="Approved" className="bg-green-500 text-white">Approved</option>
+                          <option value="Rejected" className="bg-red-500 text-white">Rejected</option>
+                        </select>
+                      ) : (
+                        <Badge className={`px-2 py-1 rounded ${getStatusBadgeClass(post.status)}`}>
+                          {post.status}
+                        </Badge>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {editingStatusId === post._id ? (
+                        <Button onClick={() => handleStatusSave(post._id)}>Save</Button>
+                      ) : (
+                        <Button onClick={() => handleStatusEdit(post._id, post.status)}>Edit</Button>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </CardContent>
@@ -193,5 +275,6 @@ const AdminDashboard = () => {
       </main>
     </div>
   );
-}
+};
+
 export default AdminDashboard;

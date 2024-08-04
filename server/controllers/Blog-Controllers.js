@@ -5,13 +5,21 @@ const createBlog = async (req, res) => {
         const {title,intro,content} = req.body;
         const author = req.user._id;
         if(!title || !intro || !content || !author) {
-            return res.status(400).json({msg: 'Please enter all fields'});
+            return res.status(400).json({message: 'Please enter all fields'});
         }
+        // Check if the blog already exists
+        const blogExists = await Blog.findOne({ title });
+        if (blogExists) {
+            return res.status(400).json({ message: "Blog with the same title already exists" });
+        }
+        // if(!blogExists.isWriter) {
+        //     return res.status(403).json({ message: "You are not authorized to create this blog" });
+        // }
         const newBlog = await Blog.create({title, intro, content, author});
         await newBlog.save();
-        res.json({msg: 'Blog created successfully', blog: newBlog});
+        res.json({message: 'Blog created successfully', blog: newBlog});
     } catch (error) {
-        res.status(404).json({msg:"Error creating blog"})
+        res.status(404).json({message:"Error creating blog"})
         console.log(error);
     }
 }
@@ -21,7 +29,7 @@ const showDraftBlogs = async (req, res) => {
         const drafts = await Blog.find({ author: req.user._id, status: 'Draft' });
         res.status(200).json(drafts);
     } catch (error) {
-        res.status(500).json({ msg: 'Error fetching drafts', error });
+        res.status(500).json({ message: 'Error fetching drafts', error });
     }
 }
 
@@ -30,7 +38,7 @@ const checkBlogIsApprovedOrNot = async (req, res) => {
         const blogs = await Blog.find({ author: req.user._id });
         res.status(200).json(blogs);
     } catch (error) {
-        res.status(500).json({ msg: 'Error fetching blogs', error });
+        res.status(500).json({ message: 'Error fetching blogs', error });
     }
 }
 

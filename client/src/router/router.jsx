@@ -17,6 +17,7 @@ import { useContext, useEffect } from "react"
 import { AuthContext } from "../store/auth-context"
 import ContactForm from "../../components/ContactPage"
 import AdminDashboard from "../../components/AdminDashboard"
+import ShowBlogPosts from "../../components/ShowBlogPosts"
 
 
 
@@ -48,6 +49,7 @@ function Router() {
           <Route path="/createblog" element={token ? <CreateBlogPost /> : <Navigate to="/login" />} />
           <Route path="/draftblogs" element={token ? <DraftPosts /> : <Navigate to="/login" />} />
           <Route path="/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
+          <Route path="/blogs" element={<ShowBlogPosts />} />
 
         </Routes>
     </>

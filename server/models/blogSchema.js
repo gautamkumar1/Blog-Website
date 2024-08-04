@@ -22,6 +22,11 @@ const blogSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
+    // isWriter:{
+    //     type: Boolean,
+    //     default: false,
+    //     required: true,
+    // },
     status: { type: String, enum: ['Draft', 'Pending', 'Approved', 'Rejected'], default: 'Draft' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
