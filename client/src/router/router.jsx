@@ -19,6 +19,7 @@ import ContactForm from "../../components/ContactPage"
 import AdminDashboard from "../../components/AdminDashboard"
 import ShowBlogPosts from "../../components/ShowBlogPosts"
 import UserTable from "../../components/UserTable"
+import ReviewPosts from "../../components/ReviewPosts"
 
 
 
@@ -52,6 +53,7 @@ function Router() {
           <Route path="/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
           <Route path="/blogs" element={<ShowBlogPosts />} />
           <Route path="/users" element={token ? <UserTable /> : <Navigate to="/login" />} />
+          <Route path="/review-post" element={token? <ReviewPosts />: <Navigate to="/login" />} />
 
         </Routes>
     </>

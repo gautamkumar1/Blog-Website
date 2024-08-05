@@ -7,8 +7,10 @@ import { Button } from "../components/ui/button";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie"
+import { useNavigate } from "react-router-dom";
 
 const CreateBlogPost = () => {
+    const navigate = useNavigate();
     const [createBlog, setCreateBlog] = useState({
         title: "",
         intro: "",
@@ -48,6 +50,7 @@ const CreateBlogPost = () => {
             // Parse the JSON response
             
             toast.success("Blog Created Successfully");
+            navigate("/review-post")
             setCreateBlog({ title: "", intro: "", content: "" });
     
         } catch (err) {
