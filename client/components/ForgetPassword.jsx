@@ -12,7 +12,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:3000/api/user/forgot-password",
+        "https://task-2-blog-website-1.onrender.com/api/user/forgot-password",
         {
           method: "POST",
           headers: {

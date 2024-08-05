@@ -5,7 +5,7 @@ const ShowBlogPosts = () => {
   const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/admin/approved-posts')
+    fetch('https://task-2-blog-website-1.onrender.com/api/admin/approved-posts')
       .then(response => response.json())
       .then(data => setPosts(data))
       .catch(error => console.error('Error fetching posts:', error));

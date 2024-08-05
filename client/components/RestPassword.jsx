@@ -17,7 +17,7 @@ const ResetPassword = () => {
       console.log("ID from params:", id);
 
       const response = await fetch(
-        `http://localhost:3000/api/user/reset_password/${id}`,
+        `https://task-2-blog-website-1.onrender.com/api/user/reset_password/${id}`,
         {
           method: "PUT",
           headers: {

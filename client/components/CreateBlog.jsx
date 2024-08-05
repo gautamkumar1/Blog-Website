@@ -30,7 +30,7 @@ import { saveDraft } from "./SaveDraft";
 //             const authToken = Cookies.get('token') // or however you store your token
 //             console.log("Token: " + authToken);
             
-//             const response = await fetch("http://localhost:3000/api/user/create-blog", {
+//             const response = await fetch("https://task-2-blog-website-1.onrender.com/api/user/create-blog", {
 //                 method: "POST",
 //                 headers: {
 //                     "Content-Type": "application/json",
@@ -110,7 +110,7 @@ import { saveDraft } from "./SaveDraft";
 //     const saveDraft = async () => {
 //         try {
 //             const authToken = Cookies.get('token');
-//             const response = await fetch("http://localhost:3000/api/user/save-draft", {
+//             const response = await fetch("https://task-2-blog-website-1.onrender.com/api/user/save-draft", {
 //                 method: "POST",
 //                 headers: {
 //                     "Content-Type": "application/json",
@@ -131,7 +131,7 @@ import { saveDraft } from "./SaveDraft";
 //     const publishBlogPost = async () => {
 //         try {
 //             const authToken = Cookies.get('token');
-//             const response = await fetch("http://localhost:3000/api/user/create-blog", {
+//             const response = await fetch("https://task-2-blog-website-1.onrender.com/api/user/create-blog", {
 //                 method: "POST",
 //                 headers: {
 //                     "Content-Type": "application/json",
@@ -229,7 +229,7 @@ const CreateBlogPost = () => {
     const publishBlogPost = async () => {
         try {
             const authToken = Cookies.get('token');
-            const response = await fetch("http://localhost:3000/api/user/create-blog", {
+            const response = await fetch("https://task-2-blog-website-1.onrender.com/api/user/create-blog", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

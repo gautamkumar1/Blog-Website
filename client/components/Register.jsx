@@ -32,7 +32,7 @@ const Register = () => {
     e.preventDefault();
     console.log('Submitting user data:', user); // Log user data to check
     try {
-      const response = await fetch("http://localhost:3000/api/user/register", {
+      const response = await fetch("https://task-2-blog-website-1.onrender.com/api/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

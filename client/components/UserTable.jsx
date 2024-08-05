@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 //                 const authToken = Cookies.get('token');
 //                 // console.log("Token: " + authToken);
         
-//                 const response = await fetch("http://localhost:3000/api/admin/show-users", {
+//                 const response = await fetch("https://task-2-blog-website-1.onrender.com/api/admin/show-users", {
 //                   method: "GET",
 //                   headers: {
 //                     "Content-Type": "application/json",
@@ -62,7 +62,7 @@ import { toast } from "react-toastify";
 //     const handleEditSubmit = async () => {
 //       try {
 //         const authToken = Cookies.get('token');
-//         const response = await fetch(`http://localhost:3000/api/admin/update-user/${editingUser._id}`, {
+//         const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/update-user/${editingUser._id}`, {
 //           method: 'PUT',
 //           headers: {
 //             'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ import { toast } from "react-toastify";
 //     const handleDelete = async (userId) => {
 //       try {
 //         const authToken = Cookies.get('token');
-//         const response = await fetch(`http://localhost:3000/api/admin/delete-user/${userId}`, {
+//         const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/delete-user/${userId}`, {
 //           method: 'DELETE',
 //           headers: {
 //             'Content-Type': 'application/json',
@@ -198,7 +198,7 @@ function UserTable() {
         try {
           const authToken = Cookies.get('token');
   
-          const response = await fetch("http://localhost:3000/api/admin/show-users", {
+          const response = await fetch("https://task-2-blog-website-1.onrender.com/api/admin/show-users", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -239,7 +239,7 @@ function UserTable() {
     const handleEditSubmit = async () => {
       try {
         const authToken = Cookies.get('token');
-        const response = await fetch(`http://localhost:3000/api/admin/update-user/${editingUser._id}`, {
+        const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/update-user/${editingUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -265,7 +265,7 @@ function UserTable() {
     const handleDelete = async (userId) => {
       try {
         const authToken = Cookies.get('token');
-        const response = await fetch(`http://localhost:3000/api/admin/delete-user/${userId}`, {
+        const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/delete-user/${userId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

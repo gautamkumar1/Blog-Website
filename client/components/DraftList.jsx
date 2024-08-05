@@ -20,7 +20,7 @@ const DraftsList = () => {
 
             try {
                 const authToken = Cookies.get('token');
-                const response = await fetch(`http://localhost:3000/api/user/get-drafts/${userId}`, {
+                const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/user/get-drafts/${userId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -54,7 +54,7 @@ const DraftsList = () => {
 
         try {
             const authToken = Cookies.get('token');
-            const response = await fetch(`http://localhost:3000/api/user/create-blog`, {
+            const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/user/create-blog`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 export const saveDraft = async (draftData) => {
     try {
         const authToken = Cookies.get('token');
-        const response = await fetch("http://localhost:3000/api/user/save-draft", {
+        const response = await fetch("https://task-2-blog-website-1.onrender.com/api/user/save-draft", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

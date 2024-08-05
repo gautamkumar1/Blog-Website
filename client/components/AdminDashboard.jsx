@@ -63,7 +63,7 @@ const AdminDashboard = () => {
         const authToken = Cookies.get('token');
         console.log("Token: " + authToken);
 
-        const response = await fetch("http://localhost:3000/api/admin/show-allposts", {
+        const response = await fetch("https://task-2-blog-website-1.onrender.com/api/admin/show-allposts", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -101,7 +101,7 @@ const AdminDashboard = () => {
   const handleStatusSave = async (postId) => {
     try {
       const authToken = Cookies.get('token');
-      const response = await fetch(`http://localhost:3000/api/admin/posts/${postId}/status`, {
+      const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/posts/${postId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
   const handleDelete = async (postId) => {
     try {
       const authToken = Cookies.get('token');
-      const response = await fetch(`http://localhost:3000/api/admin/delete-posts/${postId}`, {
+      const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/delete-posts/${postId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

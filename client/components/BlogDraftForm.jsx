@@ -12,7 +12,7 @@ const DraftPosts = () => {
         const authToken = Cookies.get('token'); // or however you store your token
         console.log("Token: " + authToken);
 
-        const response = await fetch("http://localhost:3000/api/user/draft-blog", {
+        const response = await fetch("https://task-2-blog-website-1.onrender.com/api/user/draft-blog", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
