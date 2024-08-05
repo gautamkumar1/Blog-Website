@@ -6,9 +6,9 @@ const sendEmail = require('../utils/mail');
 const register = async (req, res,next) => {
     try {
         const { username, email, password, role } = req.body;
-        // if (!username || !email || !password || !role) {
-        //     return res.status(400).json({ message: "All fields are required" });
-        // }
+        if (!username || !email || !password || !role) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
 
         // Check if the user already exists
         const userExists = await User.findOne({ email });
@@ -120,7 +120,7 @@ const forgotPassword = async (req, res) => {
         await user.save();
 
         // Create reset URL
-        const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+        const resetUrl = `https://task-2-blog-website.vercel.app/reset-password/${resetToken}`;
         const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
         console.log("Reset Password link : ", message);
         await sendEmail({ email: user.email, subject: 'Password reset token', message });
