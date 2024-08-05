@@ -20,6 +20,7 @@ import AdminDashboard from "../../components/AdminDashboard"
 import ShowBlogPosts from "../../components/ShowBlogPosts"
 import UserTable from "../../components/UserTable"
 import ReviewPosts from "../../components/ReviewPosts"
+import DraftsList from "../../components/DraftList"
 
 
 
@@ -49,12 +50,12 @@ function Router() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:id" element={<ResetPassword />} />
           <Route path="/createblog" element={token ? <CreateBlogPost /> : <Navigate to="/login" />} />
-          <Route path="/draftblogs" element={token ? <DraftPosts /> : <Navigate to="/login" />} />
+          <Route path="//pendingblogs" element={token ? <DraftPosts /> : <Navigate to="/login" />} />
           <Route path="/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
           <Route path="/blogs" element={<ShowBlogPosts />} />
           <Route path="/users" element={token ? <UserTable /> : <Navigate to="/login" />} />
           <Route path="/review-post" element={token? <ReviewPosts />: <Navigate to="/login" />} />
-
+          <Route path="/draftblogs" element={token? <DraftsList />: <Navigate to="/login" />} />
         </Routes>
     </>
   )

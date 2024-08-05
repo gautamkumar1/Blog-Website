@@ -27,7 +27,7 @@ const blogSchema = new mongoose.Schema({
     //     default: false,
     //     required: true,
     // },
-    status: { type: String, enum: ['Draft', 'Pending', 'Approved', 'Rejected'], default: 'Draft' },
+    status: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 })

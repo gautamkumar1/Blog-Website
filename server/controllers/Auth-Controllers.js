@@ -59,6 +59,7 @@ const login = async (req, res,next) => {
         if (userExists.role !== role) {
             return res.status(400).json({ message: "User role does not match" });
         }
+        
         sendToken(userExists, 200, "User logged in successfully", res);
 
 

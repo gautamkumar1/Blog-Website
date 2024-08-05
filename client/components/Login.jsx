@@ -39,7 +39,11 @@ const Login = () => {
       const responseData = await response.json();
 
       console.log("Token : ", responseData);
+      const userId = responseData.user._id;
+      console.log("User Id : ", userId);
+      Cookies.set('userId', userId)
       Cookies.set("token", responseData.token);
+
       if (response.ok) {
         toast.success("Login Successfully");
         setUser({ email: "", password: "", role: "" });

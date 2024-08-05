@@ -26,8 +26,9 @@ const DraftPosts = () => {
 
         const responseData = await response.json();
         console.log("Response data: ", responseData);
-
+        
         setDrafts(responseData);
+        console.log("Status: ", drafts.status)
         setLoading(false);
       } catch (error) {
         console.error('Error fetching drafts:', error);
@@ -44,7 +45,7 @@ const DraftPosts = () => {
 
   return (
     <div className="p-6 bg-gray-800 text-white min-h-screen">
-    <h1 className="text-2xl font-bold mb-4 text-center">Draft Blog Posts</h1>
+    <h1 className="text-2xl font-bold mb-4 text-center">Pending Blog Posts</h1>
     <div className="space-y-4">
       {drafts.map((draft) => (
         <div key={draft._id} className="p-4 border border-gray-600 rounded-lg bg-gray-900 text-center">

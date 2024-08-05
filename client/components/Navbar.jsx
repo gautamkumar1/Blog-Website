@@ -49,6 +49,14 @@ console.log(isLoggedIn,"YUGH")
                                 <li>
                                     <Link
                                         className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
+                                        to="/pendingblogs"
+                                    >
+                                        Pending Blogs
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
                                         to="/draftblogs"
                                     >
                                         Draft Blogs
