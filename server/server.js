@@ -10,12 +10,11 @@ const app = express();
 
 
 const corsOptions = {
-  // origin: "http://localhost:5173",
-  origin: "*",
+  origin: "http://localhost:5173",
+  // origin: "*",
   methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
   credentials: true,
 };
-
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
@@ -33,8 +32,9 @@ app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 3000;
 
+
 connectDb().then(() => {
-  server.listen(PORT, () => {
+  app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
 });
