@@ -100,7 +100,7 @@ const verifyEmail = async (req, res) => {
         user.verificationTokenExpire = undefined;
         await user.save();
         // res.status(200).json({ message: 'Email verified successfully' });
-        res.redirect('http://localhost:5173/verifyPage');
+        res.redirect('https://task-2-blog-website.vercel.app/verifyPage');
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error verifying email' });
