@@ -62,7 +62,17 @@ const deleteUser = async (req, res) => {
         res.status(500).json({ message: 'Error deleting user', error });
     }
 }
-
+const updateUser = async (req, res) => {
+    try {
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json({ message: 'User updated successfully', user });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating user', error });
+    }
+}
 const showAllPosts = async (req, res) => {
     try {
         const posts = await Blog.find().populate('author', 'username email');
@@ -83,4 +93,4 @@ const deletePost = async (req, res) => {
         res.status(500).json({ message: 'Error deleting post', error });
     }
 }
-module.exports = {getAllUsers,approvedPost,showAllUser,deleteUser,showAllPosts,deletePost,showApprovedPosts}
+module.exports = {getAllUsers,approvedPost,showAllUser,deleteUser,showAllPosts,deletePost,showApprovedPosts,updateUser}

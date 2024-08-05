@@ -18,6 +18,7 @@ import { AuthContext } from "../store/auth-context"
 import ContactForm from "../../components/ContactPage"
 import AdminDashboard from "../../components/AdminDashboard"
 import ShowBlogPosts from "../../components/ShowBlogPosts"
+import UserTable from "../../components/UserTable"
 
 
 
@@ -50,6 +51,7 @@ function Router() {
           <Route path="/draftblogs" element={token ? <DraftPosts /> : <Navigate to="/login" />} />
           <Route path="/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
           <Route path="/blogs" element={<ShowBlogPosts />} />
+          <Route path="/users" element={token ? <UserTable /> : <Navigate to="/login" />} />
 
         </Routes>
     </>

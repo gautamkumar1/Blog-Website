@@ -16,15 +16,6 @@ function BookIcon(props) {
   );
 }
 
-function FilePenIcon(props) {
-  return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22h6a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v10" />
-      <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-      <path d="M10.4 12.6a2 2 0 1 1 3 3L8 21l-4 1 1-4Z" />
-    </svg>
-  );
-}
 
 function LayoutGridIcon(props) {
   return (
@@ -33,34 +24,6 @@ function LayoutGridIcon(props) {
       <rect width="7" height="7" x="14" y="3" rx="1" />
       <rect width="7" height="7" x="14" y="14" rx="1" />
       <rect width="7" height="7" x="3" y="14" rx="1" />
-    </svg>
-  );
-}
-
-function MenuIcon(props) {
-  return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="4" x2="20" y1="12" y2="12" />
-      <line x1="4" x2="20" y1="6" y2="6" />
-      <line x1="4" x2="20" y1="18" y2="18" />
-    </svg>
-  );
-}
-
-function MessageCircleIcon(props) {
-  return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-    </svg>
-  );
-}
-
-function MoveHorizontalIcon(props) {
-  return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="18 8 22 12 18 16" />
-      <polyline points="6 8 2 12 6 16" />
-      <line x1="2" x2="22" y1="12" y2="12" />
     </svg>
   );
 }
@@ -160,6 +123,27 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleDelete = async (postId) => {
+    try {
+      const authToken = Cookies.get('token');
+      const response = await fetch(`http://localhost:3000/api/admin/delete-posts/${postId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete post');
+      }
+
+      setPosts(posts.filter(post => post._id !== postId));
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  };
+
   const getStatusBadgeClass = (status) => {
     switch (status) {
       case 'Approved':
@@ -189,15 +173,7 @@ const AdminDashboard = () => {
             <LayoutGridIcon className="h-4 w-4" />
             Dashboard
           </Link>
-          <Link href="#" className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground" prefetch={false}>
-            <FilePenIcon className="h-4 w-4" />
-            Posts
-          </Link>
-          <Link href="#" className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground" prefetch={false}>
-            <MessageCircleIcon className="h-4 w-4" />
-            Comments
-          </Link>
-          <Link href="#" className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground" prefetch={false}>
+          <Link to="/users" className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground" prefetch={false}>
             <UsersIcon className="h-4 w-4" />
             Users
           </Link>
@@ -223,7 +199,7 @@ const AdminDashboard = () => {
           <CardHeader className="flex justify-between">
             <div>
               <CardTitle> Posts</CardTitle>
-              <CardDescription>A summary of your  posts.</CardDescription>
+              <CardDescription>A summary of your posts.</CardDescription>
             </div>
           </CardHeader>
           <CardContent>
@@ -263,7 +239,10 @@ const AdminDashboard = () => {
                       {editingStatusId === post._id ? (
                         <Button onClick={() => handleStatusSave(post._id)}>Save</Button>
                       ) : (
-                        <Button onClick={() => handleStatusEdit(post._id, post.status)}>Edit</Button>
+                        <>
+                          <Button onClick={() => handleStatusEdit(post._id, post.status)}>Edit</Button>
+                          <Button onClick={() => handleDelete(post._id)} className="ml-2">Delete</Button>
+                        </>
                       )}
                     </TableCell>
                   </TableRow>
@@ -278,3 +257,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+

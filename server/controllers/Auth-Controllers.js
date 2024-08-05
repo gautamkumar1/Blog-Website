@@ -98,7 +98,6 @@ const verifyEmail = async (req, res) => {
         user.verificationToken = undefined;
         user.verificationTokenExpire = undefined;
         await user.save();
-
         // res.status(200).json({ message: 'Email verified successfully' });
         res.redirect('http://localhost:5173/verifyPage');
     } catch (error) {

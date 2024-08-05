@@ -9,4 +9,5 @@ router.delete('/delete-user/:id', isAuthenticated, isAuthorized('Admin'),AdminCo
 router.get('/show-allposts', isAuthenticated, isAuthorized('Admin'),AdminControllers.showAllPosts)
 router.get('/approved-posts',AdminControllers.showApprovedPosts)
 router.delete('/delete-posts/:id', isAuthenticated, isAuthorized('Admin'),AdminControllers.deletePost)
+router.put('/update-user/:id', isAuthenticated, isAuthorized('Admin'),AdminControllers.updateUser)
 module.exports = router
