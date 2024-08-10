@@ -1,5 +1,6 @@
 const sendToken = (user, statusCode, message, res) => {
     const token = user.generateJWTToken();
+    // console.log(token);
     
     const options = {
         expires: new Date(

@@ -100,7 +100,7 @@ const verifyEmail = async (req, res) => {
         user.verificationTokenExpire = undefined;
         await user.save();
         // res.status(200).json({ message: 'Email verified successfully' });
-        res.redirect('https://task-2-blog-website.vercel.app/verifyPage');
+        res.redirect('http://localhost:5173/verifyPage');
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error verifying email' });
@@ -120,7 +120,7 @@ const forgotPassword = async (req, res) => {
         await user.save();
 
         // Create reset URL
-        const resetUrl = `https://task-2-blog-website.vercel.app/reset-password/${resetToken}`;
+        const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
         const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
         console.log("Reset Password link : ", message);
         await sendEmail({ email: user.email, subject: 'Password reset token', message });

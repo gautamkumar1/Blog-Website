@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import  { createContext, useState, useEffect, } from 'react';
-import Cookies from 'js-cookie';
+
 // create the auth context provider
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loginStatus,setLoginStatus]=useState(false)
     useEffect(() => {
-        const token = Cookies.get('token');
+        const token = localStorage.getItem('token');
         if (token) {
             setIsLoggedIn(true);
         }
@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
   // lets takle the logout
   const logoutUser = () => {
     setIsLoggedIn(false)
-    return Cookies.remove('token')
+    return localStorage.removeItem('token')
   };
   return (
     <AuthContext.Provider

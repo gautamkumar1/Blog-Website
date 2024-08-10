@@ -7,7 +7,7 @@ import { Input } from "../components/ui/input";
 import { Checkbox } from "../components/ui/checkbox";
 import { Button } from "../components/ui/button";
 import { toast } from "react-toastify";
-import Cookies from "js-cookie"
+
 import { AuthContext } from '../src/store/auth-context';
 
 const Login = () => {
@@ -27,22 +27,22 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://task-2-blog-website-1.onrender.com/api/user/login", {
+      const response = await fetch("/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
-        // credentials: 'include' // Ensure cookies are sent
+        
       });
 
       const responseData = await response.json();
 
       console.log("Token : ", responseData);
       const userId = responseData.user._id;
-      console.log("User Id : ", userId);
-      Cookies.set('userId', userId)
-      Cookies.set("token", responseData.token);
+      
+      localStorage.setItem('userId', userId);
+      localStorage.setItem('token', responseData.token);
 
       if (response.ok) {
         toast.success("Login Successfully");

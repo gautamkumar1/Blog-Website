@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +7,7 @@ const DraftsList = () => {
     const [drafts, setDrafts] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentDraft, setCurrentDraft] = useState(null);
-    const userId = Cookies.get('userId');
+    const userId = localStorage.getItem('userId');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,8 +18,8 @@ const DraftsList = () => {
             }
 
             try {
-                const authToken = Cookies.get('token');
-                const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/user/get-drafts/${userId}`, {
+                const authToken = localStorage.getItem('token');
+                const response = await fetch(`/api/user/get-drafts/${userId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -53,8 +52,8 @@ const DraftsList = () => {
         e.preventDefault();
 
         try {
-            const authToken = Cookies.get('token');
-            const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/user/create-blog`, {
+            const authToken = localStorage.getItem('token');
+            const response = await fetch(`/api/user/create-blog`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

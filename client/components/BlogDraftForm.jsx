@@ -1,5 +1,4 @@
-// src/DraftPosts.jsx
-import Cookies from 'js-cookie';
+
 import { useEffect, useState } from 'react';
 
 const DraftPosts = () => {
@@ -9,10 +8,10 @@ const DraftPosts = () => {
   useEffect(() => {
     const fetchDrafts = async () => {
       try {
-        const authToken = Cookies.get('token'); // or however you store your token
+        const authToken = localStorage.getItem('token'); // or however you store your token
         console.log("Token: " + authToken);
 
-        const response = await fetch("https://task-2-blog-website-1.onrender.com/api/user/draft-blog", {
+        const response = await fetch("/api/user/draft-blog", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

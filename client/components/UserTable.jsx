@@ -4,187 +4,9 @@ import { useEffect, useState } from "react";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../components/ui/table";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
-import Cookies from "js-cookie";
+
 import { toast } from "react-toastify";
 
-// function UserTable() {
-//     const [users, setUsers] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-//     const [editingUser, setEditingUser] = useState(null);
-//     const [updatedUser, setUpdatedUser] = useState({});
-  
-//     useEffect(() => {
-//             const fetchUsers = async () => {
-//               try {
-//                 const authToken = Cookies.get('token');
-//                 // console.log("Token: " + authToken);
-        
-//                 const response = await fetch("https://task-2-blog-website-1.onrender.com/api/admin/show-users", {
-//                   method: "GET",
-//                   headers: {
-//                     "Content-Type": "application/json",
-//                     'Authorization': `Bearer ${authToken}`,
-//                   },
-//                 });
-        
-//                 if (!response.ok) {
-//                   throw new Error('Network response was not ok');
-//                 }
-        
-//                 const responseData = await response.json();
-//                 console.log("Response data: ", responseData);
-        
-//                 setUsers(responseData);
-//                 setLoading(false);
-//               } catch (error) {
-//                 console.error('Error fetching users:', error);
-//                 setLoading(false);
-//               }
-//             };
-        
-//             fetchUsers();
-//           }, []);
-//     const handleEditClick = (user) => {
-//       setEditingUser(user);
-//       setUpdatedUser(user);
-//       setIsEditModalOpen(true);
-//     };
-  
-//     const handleEditChange = (e) => {
-//       const { name, value } = e.target;
-//       setUpdatedUser(prevState => ({
-//         ...prevState,
-//         [name]: value
-//       }));
-//     };
-  
-//     const handleEditSubmit = async () => {
-//       try {
-//         const authToken = Cookies.get('token');
-//         const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/update-user/${editingUser._id}`, {
-//           method: 'PUT',
-//           headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${authToken}`
-//           },
-//           body: JSON.stringify(updatedUser)
-//         });
-  
-//         if (!response.ok) {
-//           toast.error('Failed to edit user');
-//           return;
-//         }
-  
-//         toast.success("User edited successfully");
-//         setUsers(users.map(user => user._id === editingUser._id ? updatedUser : user));
-//         setIsEditModalOpen(false);
-//       } catch (error) {
-//         console.error('Error editing user:', error);
-//         toast.error('Error editing user');
-//       }
-//     };
-  
-//     const handleDelete = async (userId) => {
-//       try {
-//         const authToken = Cookies.get('token');
-//         const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/delete-user/${userId}`, {
-//           method: 'DELETE',
-//           headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${authToken}`
-//           }
-//         });
-  
-//         if (!response.ok) {
-//           toast.error('Failed to delete user');
-//           return;
-//         }
-  
-//         toast.success("User deleted successfully");
-//         setUsers(users.filter(user => user._id !== userId));
-//       } catch (error) {
-//         console.error('Error deleting user:', error);
-//         toast.error('Error deleting user');
-//       }
-//     };
-  
-//     if (loading) {
-//       return <div>Loading...</div>;
-//     }
-  
-//     return (
-//       <div className="overflow-auto border rounded-lg">
-//         <Table>
-//           <TableHeader>
-//             <TableRow>
-//               <TableHead>Username</TableHead>
-//               <TableHead>Email</TableHead>
-//               <TableHead>Role</TableHead>
-//               <TableHead>Verified</TableHead>
-//               <TableHead className="text-right">Actions</TableHead>
-//             </TableRow>
-//           </TableHeader>
-//           <TableBody>
-//             {users.map((user) => (
-//               <TableRow key={user._id}>
-//                 <TableCell className="font-medium">{user.username}</TableCell>
-//                 <TableCell>{user.email}</TableCell>
-//                 <TableCell>{user.role}</TableCell>
-//                 <TableCell>
-//                   {user.isVerified ? (
-//                     <Badge variant="success">Verified</Badge>
-//                   ) : (
-//                     <Badge variant="danger">Not Verified</Badge>
-//                   )}
-//                 </TableCell>
-//                 <TableCell className="text-right">
-//                   <Button variant="ghost" size="icon" onClick={() => handleEditClick(user._id)}>
-//                     <FilePenIcon className="h-4 w-4" />
-//                     <span className="sr-only">Edit {user.username}</span>
-//                   </Button>
-//                   <Button variant="ghost" size="icon" onClick={() => handleDelete(user._id)}>
-//                     <TrashIcon className="h-4 w-4" />
-//                     <span className="sr-only">Delete {user.username}</span>
-//                   </Button>
-//                 </TableCell>
-//               </TableRow>
-//             ))}
-//           </TableBody>
-//         </Table>
-  
-//         {isEditModalOpen && (
-//           <div className="modal">
-//             <div className="modal-content">
-//               <h2>Edit User</h2>
-//               <label>
-//                 Username:
-//                 <input type="text" name="username" value={updatedUser.username} onChange={handleEditChange} />
-//               </label>
-//               <label>
-//                 Email:
-//                 <input type="email" name="email" value={updatedUser.email} onChange={handleEditChange} />
-//               </label>
-//               <label>
-//                 Role:
-//                 <input type="text" name="role" value={updatedUser.role} onChange={handleEditChange} />
-//               </label>
-//               <label>
-//                 Verified:
-//                 <input type="checkbox" name="verified" checked={updatedUser.verified} onChange={() => setUpdatedUser(prevState => ({
-//                   ...prevState,
-//                   verified: !prevState.verified
-//                 }))} />
-//               </label>
-//               <Button onClick={handleEditSubmit}>Submit</Button>
-//               <Button onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     );
-//   }
-  
 
 function UserTable() {
     const [users, setUsers] = useState([]);
@@ -196,9 +18,9 @@ function UserTable() {
     useEffect(() => {
       const fetchUsers = async () => {
         try {
-          const authToken = Cookies.get('token');
+          const authToken = localStorage.getItem('token');
   
-          const response = await fetch("https://task-2-blog-website-1.onrender.com/api/admin/show-users", {
+          const response = await fetch("/api/admin/show-users", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -238,8 +60,8 @@ function UserTable() {
   
     const handleEditSubmit = async () => {
       try {
-        const authToken = Cookies.get('token');
-        const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/update-user/${editingUser._id}`, {
+        const authToken = localStorage.getItem('token');
+        const response = await fetch(`/api/admin/update-user/${editingUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -264,8 +86,8 @@ function UserTable() {
   
     const handleDelete = async (userId) => {
       try {
-        const authToken = Cookies.get('token');
-        const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/delete-user/${userId}`, {
+        const authToken = localStorage.getItem('token');
+        const response = await fetch(`/api/admin/delete-user/${userId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

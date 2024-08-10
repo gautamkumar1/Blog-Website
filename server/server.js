@@ -10,8 +10,8 @@ const app = express();
 
 
 const corsOptions = {
-  origin: "https://task-2-blog-website.vercel.app",
-  // origin: "*",
+  
+  origin: "*",
   methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
   credentials: true,
 };

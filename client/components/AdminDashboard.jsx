@@ -6,7 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "../co
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../components/ui/table";
 import { Badge } from "../components/ui/badge";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+
 
 function BookIcon(props) {
   return (
@@ -60,10 +60,10 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const authToken = Cookies.get('token');
+        const authToken = localStorage.getItem('token');
         console.log("Token: " + authToken);
 
-        const response = await fetch("https://task-2-blog-website-1.onrender.com/api/admin/show-allposts", {
+        const response = await fetch("/api/admin/show-allposts", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -100,8 +100,8 @@ const AdminDashboard = () => {
 
   const handleStatusSave = async (postId) => {
     try {
-      const authToken = Cookies.get('token');
-      const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/posts/${postId}/status`, {
+      const authToken =localStorage.getItem('token');
+      const response = await fetch(`/api/admin/posts/${postId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -125,8 +125,8 @@ const AdminDashboard = () => {
 
   const handleDelete = async (postId) => {
     try {
-      const authToken = Cookies.get('token');
-      const response = await fetch(`https://task-2-blog-website-1.onrender.com/api/admin/delete-posts/${postId}`, {
+      const authToken = localStorage.getItem('token');
+      const response = await fetch(`/api/admin/delete-posts/${postId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
