@@ -19,6 +19,7 @@ import ShowBlogPosts from "../../components/ShowBlogPosts"
 import UserTable from "../../components/UserTable"
 import ReviewPosts from "../../components/ReviewPosts"
 import DraftsList from "../../components/DraftList"
+import Cookies from "js-cookie"
 
 function Router() {
     const navigate = useNavigate();
@@ -28,12 +29,14 @@ function Router() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+
         if (token && (urlPath === "/login" || urlPath === "/register")) {
             navigate('/');
+
         }
     }, [urlPath, navigate]); // Ensure navigate and urlPath are in the dependency array
 
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
     console.log("Tokeeen: " + token);
     
 

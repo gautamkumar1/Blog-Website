@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import  { useContext, useState } from 'react';
+import  { useContext, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Label } from "../components/ui/label";
@@ -9,6 +9,7 @@ import { Button } from "../components/ui/button";
 import { toast } from "react-toastify";
 
 import { AuthContext } from '../src/store/auth-context';
+import { use } from 'react';
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -47,10 +48,10 @@ const Login = () => {
       if (response.ok) {
         toast.success("Login Successfully");
         setUser({ email: "", password: "", role: "" });
-        if(user.role=== "Writer"){
-          navigate("/");
-        }
-        else if(user.role=== "Admin"){
+        // if(user.role=== "Writer"){
+        //   navigate("/");
+        // }
+        if(user.role=== "Admin"){
           navigate("/dashboard");
         }
         setLoginStatus(true)
@@ -62,7 +63,35 @@ const Login = () => {
       console.error("Login error:", err);
     }
   };
-
+  useEffect(() => {
+    // Get token from URL
+    const queryParams = new URLSearchParams(window.location.search);
+    console.log("Query params: ", queryParams);
+    
+    const token = queryParams.get('token');
+    
+    if (token) {
+      // Save token to localStorage
+      localStorage.setItem('token', token);
+      
+      // Clean the URL and redirect to createblog
+      console.log("Token found, navigating to /createblog");
+      navigate('/createblog', { replace: true });
+    } else {
+      // Check if user already has a token
+      const existingToken = localStorage.getItem('token');
+      
+      if (existingToken) {
+        // User already has token, go to createblog
+        console.log("Existing token found, navigating to /createblog");
+        navigate('/createblog', { replace: true });
+      } else {
+        // No token found, redirect to login
+        console.log("No token found, navigating to /login");
+        navigate('/login', { replace: true });
+      }
+    }
+  }, [navigate]);
   return (
     <div className="flex min-h-[100dvh] items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto w-full max-w-md space-y-8">
@@ -138,6 +167,17 @@ const Login = () => {
               className="relative flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               Sign in
+            </Button>
+          </div>
+          <div>
+            <Button
+              type="button"
+              onClick={() => {
+                window.open("http://localhost:3000/api/google");
+              }}
+              className="relative flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              Sign in with Google
             </Button>
           </div>
         </form>

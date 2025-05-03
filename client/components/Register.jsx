@@ -8,7 +8,7 @@ import { Button } from "../components/ui/button";
 import { toast } from "react-toastify";
 const Register = () => {
   const [user, setUser] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
     role: ""
@@ -44,7 +44,7 @@ const Register = () => {
       console.log("responseData", responseData);
       if (response.ok) {
         toast.success("Registration successful. Please check your email for verification link.");
-        setUser({ username: "", email: "", password: "", role: "" });
+        setUser({ name: "", email: "", password: "", role: "" });
         // navigate("/login");
       } else {
         toast.error(responseData.extraDetails ? responseData.extraDetails : responseData.message);
@@ -64,8 +64,8 @@ const Register = () => {
         </div>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <Label htmlFor="name">Username</Label>
-            <Input id="name" type="text" name="username" value={user.username} onChange={handelInput} placeholder="Enter your username" required />
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" type="text" name="name" value={user.name} onChange={handelInput} placeholder="Enter your name" required />
           </div>
           <div>
             <Label htmlFor="email">Email address</Label>
