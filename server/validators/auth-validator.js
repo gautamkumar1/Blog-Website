@@ -19,7 +19,7 @@ const loginSchema = z.object({
 );
 
 const signupSchema = loginSchema.extend({
-  username: z
+  name: z
     .string({ required_error: "Username is required" })
     .trim()
     .min(6, { message: "Username must be at least 6 characters" })

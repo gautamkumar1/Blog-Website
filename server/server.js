@@ -3,6 +3,7 @@ const express = require('express');
 const connectDb = require('./database/dB');
 const userRoute = require('./routes/UserRoutes');
 const adminRoute = require('./routes/AdminRoutes');
+const googleRoute = require('./routes/googleRoutes');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const errorMiddleware = require('./middlewares/error-middleware');
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/user', userRoute);
 app.use('/api/admin', adminRoute);
+app.use('/api', googleRoute);
 
 app.use(errorMiddleware);
 

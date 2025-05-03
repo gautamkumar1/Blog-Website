@@ -4,13 +4,9 @@ const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const crypto = require('crypto');
 const userSchema = new mongoose.Schema({
-  username: {
+  name: {
     type: String,
     required: true,
-    minLength: [6, "Username must contain at least 6 character!"],
-    maxLength: [32, "Username cannot exceed 32 character!"],
-    lowercase: true,
-    unique: true,
   },
   email: {
     type: String,
@@ -21,10 +17,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     enum: ["Writer", "Admin"],
+    default: "Writer",
   },
   password: {
     type: String,
-    required: true,
     minLength: [6, "Password must contain at least 6 character!"],
     maxLength: [1024, "Password cannot exceed 32 character!"],
     select: false,

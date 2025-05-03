@@ -5,8 +5,10 @@ const sendEmail = require('../utils/mail');
 
 const register = async (req, res,next) => {
     try {
-        const { username, email, password, role } = req.body;
-        if (!username || !email || !password || !role) {
+        const {name, email, password, role } = req.body;
+        console.log(JSON.stringify(req.body));
+        
+        if (!name || !email || !password || !role) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -17,7 +19,7 @@ const register = async (req, res,next) => {
         }
 
         // Create the user
-        const userCreated = await User.create({ username, email, password, role });
+        const userCreated = await User.create({ name, email, password, role });
 
         // Generate verification token
         const verificationToken = userCreated.generateVerificationToken();
@@ -40,7 +42,7 @@ const register = async (req, res,next) => {
 const login = async (req, res,next) => {
     try {
         const { email, password, role } = req.body;
-        if (!email || !password || !role) {
+        if (!email|| !role) {
             return res.status(400).json({ message: "All fields are required" });
         }
         // Check if the user exists in the database
@@ -52,6 +54,11 @@ const login = async (req, res,next) => {
         if (!userExists.isVerified) {
             return res.status(400).json({ message: 'Email not verified' });
         }
+        if(!userExists.password){
+            res.status(400).json({ message: 'You have created account with social login. Please login with your social account' });
+            return res.redirect('/login');
+        }
+
         const isMatch = await userExists.comparePassword(password);
         if (!isMatch) {
             return res.status(400).json({ message: "Incorrect password" });
